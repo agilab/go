@@ -2,10 +2,11 @@ package jsoniter
 
 import (
 	"fmt"
-	"github.com/modern-go/reflect2"
 	"io"
 	"reflect"
 	"unsafe"
+
+	"github.com/modern-go/reflect2"
 )
 
 func encoderOfStruct(ctx *ctx, typ reflect2.Type) ValEncoder {
@@ -145,7 +146,7 @@ func (encoder *structEncoder) Encode(ptr unsafe.Pointer, stream *Stream) {
 	stream.WriteObjectStart()
 	isNotFirst := false
 	for _, field := range encoder.fields {
-		if field.encoder.omitempty && field.encoder.IsEmpty(ptr) {
+		if !omitOmitempty && field.encoder.omitempty && field.encoder.IsEmpty(ptr) {
 			continue
 		}
 		if field.encoder.IsEmbeddedPtrNil(ptr) {

@@ -2,12 +2,13 @@ package jsoniter
 
 import (
 	"fmt"
-	"github.com/modern-go/reflect2"
 	"reflect"
 	"sort"
 	"strings"
 	"unicode"
 	"unsafe"
+
+	"github.com/modern-go/reflect2"
 )
 
 var typeDecoders = map[string]ValDecoder{}
@@ -15,6 +16,11 @@ var fieldDecoders = map[string]ValDecoder{}
 var typeEncoders = map[string]ValEncoder{}
 var fieldEncoders = map[string]ValEncoder{}
 var extensions = []Extension{}
+var omitOmitempty = false
+
+func RegisterOmitOmitempty(b bool) {
+	omitOmitempty = b
+}
 
 // StructDescriptor describe how should we encode/decode the struct
 type StructDescriptor struct {
